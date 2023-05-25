@@ -1,6 +1,7 @@
 package com.example.aka_cashier;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -67,14 +68,20 @@ public class MainApp extends Application {
 
             // filter section
             Text ulv_filter_text = new Text("Filter:");
-            ComboBox ulv_filter_box = new ComboBox();
+            ComboBox<String> ulv_filter_box = new ComboBox<>();
+
+                ulv_filter_box.setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category")));
 
             // scrollpane secton
             ScrollPane ulv_scroll = new ScrollPane();
+            ulv_scroll.setPrefSize(350, 180);
+
+                VBox usv = new VBox();
 
         HBox ulv_filter = new HBox(ulv_filter_text, ulv_filter_box);
 
         VBox ulv = new VBox(ulv_title, ulv_filter, ulv_scroll);
+        ulv.setPrefHeight(250);
 
 //============================================================
 
@@ -96,17 +103,50 @@ public class MainApp extends Application {
 
         HBox llv_price = new HBox(llv_price_text, llv_price_field);
 
+            Text llv_cat_text = new Text("Category:");
+            TextField llv_cat_field = new TextField();
+
+        HBox llv_cat = new HBox(llv_cat_text, llv_cat_field);
+
             Button llv_add = new Button("Add to Cart");
+
             Button llv_reset = new Button("Reset");
 
         HBox llv_button = new HBox(llv_add, llv_reset);
 
-        VBox llv = new VBox(llv_title, llv_id, llv_name, llv_price, llv_button);
+            for (String i:MyConfig.getDatabaseCol("id")) {
+
+                Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+
+                HBox h = new HBox(lid, lname, lprice, lcat);
+
+                Button b = new Button();
+
+                b.setGraphic(h);
+
+                b.setOnAction(event -> {
+                    llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                    llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                    llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                    llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                });
+
+                usv.getChildren().add(b);
+
+            }
+            ulv_scroll.setContent(usv);
+
+        VBox llv = new VBox(llv_title, llv_id, llv_name, llv_price, llv_cat, llv_button);
+        llv.setPrefHeight(300);
 
 //============================================================
 
         // left main section
         VBox lms = new VBox(ulv, llv);
+        lms.setPrefWidth(400);
 
 //============================================================
 
@@ -115,7 +155,10 @@ public class MainApp extends Application {
 
         ScrollPane urv_scroll = new ScrollPane();
 
+        VBox urv_scroll_v = new VBox();
+
         VBox urv = new VBox(urv_title, urv_scroll);
+        urv.setPrefHeight(250);
 
 //============================================================
 
@@ -137,17 +180,37 @@ public class MainApp extends Application {
 
         HBox lrv_tpay = new HBox(lrv_tpay_text, lrv_tpay_label);
 
+        llv_add.setOnAction(event -> {
+            urv_scroll_v.getChildren().clear();
+            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText());
+            for (Product p : Cart.getP()){
+                Label l1 = new Label();
+                l1.setPrefWidth(100);
+                Label l2 = new Label();
+                l2.setPrefWidth(100);
+                l1.setText(p.getName());
+                l2.setText(String.valueOf(p.getPrice()));
+                HBox ll = new HBox(l1, l2);
+                urv_scroll_v.getChildren().add(ll);
+                lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+            }
+        });
+
+        urv_scroll.setContent(urv_scroll_v);
+
             Button lrv_pay = new Button("Pay");
             Button lrv_cancel = new Button("Cancel");
 
         HBox lrv_button = new HBox(lrv_pay, lrv_cancel);
 
         VBox lrv = new VBox(lrv_title, lrv_tprice, lrv_disc, lrv_tpay, lrv_button);
+        lrv.setPrefHeight(300);
 
 //============================================================
 
         // right main section
         VBox rms = new VBox(urv, lrv);
+        rms.setPrefWidth(400);
 
         // hbox: join left and right section
         HBox root = new HBox(lms, rms);
