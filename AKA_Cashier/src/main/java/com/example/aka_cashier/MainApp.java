@@ -117,9 +117,13 @@ public class MainApp extends Application {
             for (String i:MyConfig.getDatabaseCol("id")) {
 
                 Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                lid.setPrefSize(40, 20);
                 Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                lname.setPrefSize(120, 20);
                 Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                lprice.setPrefSize(120, 20);
                 Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                lcat.setPrefSize(100, 20);
 
                 HBox h = new HBox(lid, lname, lprice, lcat);
 
@@ -185,12 +189,15 @@ public class MainApp extends Application {
             Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText());
             for (Product p : Cart.getP()){
                 Label l1 = new Label();
-                l1.setPrefWidth(100);
+                l1.setPrefWidth(80);
                 Label l2 = new Label();
-                l2.setPrefWidth(100);
+                l2.setPrefWidth(80);
+                Label l3 = new Label();
+                l3.setPrefWidth(40);
                 l1.setText(p.getName());
                 l2.setText(String.valueOf(p.getPrice()));
-                HBox ll = new HBox(l1, l2);
+                l3.setText(String.valueOf(p.getCount()));
+                HBox ll = new HBox(l1, l2, l3);
                 urv_scroll_v.getChildren().add(ll);
                 lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
             }
