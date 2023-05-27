@@ -1,5 +1,6 @@
 package com.example.aka_cashier;
 import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,12 +38,12 @@ public class MainApp extends Application {
         logo.setFitWidth(200);
 
         StackPane opening = new StackPane(logo);
-        opening.setPrefSize(360, 240);
+        opening.setPrefSize(400, 225);
 
         Scene scene = new Scene(opening);
 
         PauseTransition delay = new PauseTransition(Duration.seconds(1));
-        delay.setOnFinished(event -> {
+        delay.setOnFinished(v -> {
             stage.setScene(getScene2());
         });
         delay.play();
@@ -70,7 +72,7 @@ public class MainApp extends Application {
             Text ulv_filter_text = new Text("Filter:");
             ComboBox<String> ulv_filter_box = new ComboBox<>();
 
-                ulv_filter_box.setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category")));
+                ulv_filter_box.setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
 
             // scrollpane secton
             ScrollPane ulv_scroll = new ScrollPane();
@@ -88,22 +90,26 @@ public class MainApp extends Application {
         // lower left vbox
         Text llv_title = new Text("Details");
 
-            Text llv_id_text = new Text("Id:");
+            Label llv_id_text = new Label("Id:");
+            llv_id_text.setPrefWidth(80);
             TextField llv_id_field = new TextField();
 
         HBox llv_id = new HBox(llv_id_text, llv_id_field);
 
-            Text llv_name_text = new Text("Name:");
+            Label llv_name_text = new Label("Name:");
+            llv_name_text.setPrefWidth(80);
             TextField llv_name_field = new TextField();
 
         HBox llv_name = new HBox(llv_name_text, llv_name_field);
 
-            Text llv_price_text = new Text("Price:");
+            Label llv_price_text = new Label("Price:");
+            llv_price_text.setPrefWidth(80);
             TextField llv_price_field = new TextField();
 
         HBox llv_price = new HBox(llv_price_text, llv_price_field);
 
-            Text llv_cat_text = new Text("Category:");
+            Label llv_cat_text = new Label("Category:");
+            llv_cat_text.setPrefWidth(80);
             TextField llv_cat_field = new TextField();
 
         HBox llv_cat = new HBox(llv_cat_text, llv_cat_field);
@@ -114,7 +120,7 @@ public class MainApp extends Application {
 
         HBox llv_button = new HBox(llv_add, llv_reset);
 
-            for (String i:MyConfig.getDatabaseCol("id")) {
+            for (String i:MyConfig.getDatabaseCol("id", "All", false, false)) {
 
                 Label lid = new Label(MyConfig.getElmbyId(i, "id"));
                 lid.setPrefSize(40, 20);
@@ -142,6 +148,38 @@ public class MainApp extends Application {
 
             }
             ulv_scroll.setContent(usv);
+
+            ulv_filter_box.setOnAction(event -> {
+                usv.getChildren().clear();
+                for (String i:MyConfig.getDatabaseCol("id", ulv_filter_box.getValue(), false, false)) {
+
+                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                    lid.setPrefSize(40, 20);
+                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                    lname.setPrefSize(120, 20);
+                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                    lprice.setPrefSize(120, 20);
+                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                    lcat.setPrefSize(100, 20);
+
+                    HBox h = new HBox(lid, lname, lprice, lcat);
+
+                    Button b = new Button();
+
+                    b.setGraphic(h);
+
+                    b.setOnAction(ev -> {
+                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    });
+
+                    usv.getChildren().add(b);
+
+                }
+                ulv_scroll.setContent(usv);
+            });
 
         VBox llv = new VBox(llv_title, llv_id, llv_name, llv_price, llv_cat, llv_button);
         llv.setPrefHeight(300);

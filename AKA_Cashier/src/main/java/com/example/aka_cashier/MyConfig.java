@@ -20,18 +20,32 @@ public class MyConfig {
         }
     }
 
-    public static ArrayList<String> getDatabaseCol(String colhead){
+    public static ArrayList<String> getDatabaseCol(String colhead, String cat, boolean isSet, boolean isFil){
 
         MyConfig.connection();
 
         ArrayList<String> content = new ArrayList<>();
 
+        if (isFil) {
+            content.add("All");
+        }
+
         try{
             statement = connect.createStatement();
-            resultSet = statement.executeQuery("SELECT " + colhead + " FROM tb_products");
+            if (cat.equals("All")) {
+                resultSet = statement.executeQuery("SELECT " + colhead + " FROM tb_products");
+            } else {
+                resultSet = statement.executeQuery("SELECT " + colhead + " FROM tb_products WHERE category LIKE '%" + cat + "%'");
+            }
 
             while(resultSet.next()){
-                content.add(resultSet.getString(colhead));
+                if (!isSet) {
+                    content.add(resultSet.getString(colhead));
+                } else {
+                    if (!content.contains(resultSet.getString(colhead))) {
+                        content.add(resultSet.getString(colhead));
+                    }
+                }
             }
         }catch (SQLException e){
             throw new RuntimeException(e);
