@@ -69,10 +69,7 @@ public class MainApp extends Application {
 
         // upper left vbox
         Text ulv_title = new Text("Products List");
-        ulv_title.setFont(Font.font(20));
         StackPane ulv_title_box = new StackPane(ulv_title);
-        ulv_title_box.setPrefSize(400, 40);
-        ulv_title_box.setAlignment(Pos.CENTER);
 
             // filter section
             Text ulv_filter_text = new Text("Filter:");
@@ -82,12 +79,14 @@ public class MainApp extends Application {
 
             // scrollpane secton
             ScrollPane ulv_scroll = new ScrollPane();
-            ulv_scroll.setPrefSize(350, 150);
+            ulv_scroll.setPrefSize(350, 180);
+            ulv_scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ulv_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
                 VBox usv = new VBox();
 
         HBox ulv_filter = new HBox(ulv_filter_text, ulv_filter_box);
-        ulv_filter.setPrefSize(400, 35);
+        ulv_filter.setPrefSize(400, 30);
         ulv_filter.setSpacing(20);
         ulv_filter.setAlignment(Pos.CENTER_LEFT);
 
@@ -98,30 +97,35 @@ public class MainApp extends Application {
 
         // lower left vbox
         Text llv_title = new Text("Details");
+        StackPane llv_title_box = new StackPane(llv_title);
 
             Label llv_id_text = new Label("Id:");
-            llv_id_text.setPrefWidth(80);
+            llv_id_text.setPrefSize(80, 15);
             TextField llv_id_field = new TextField();
 
         HBox llv_id = new HBox(llv_id_text, llv_id_field);
+        llv_id.setAlignment(Pos.CENTER_LEFT);
 
             Label llv_name_text = new Label("Name:");
-            llv_name_text.setPrefWidth(80);
+            llv_name_text.setPrefSize(80, 15);
             TextField llv_name_field = new TextField();
 
         HBox llv_name = new HBox(llv_name_text, llv_name_field);
+        llv_name.setAlignment(Pos.CENTER_LEFT);
 
             Label llv_price_text = new Label("Price:");
-            llv_price_text.setPrefWidth(80);
+            llv_price_text.setPrefSize(80, 15);
             TextField llv_price_field = new TextField();
 
         HBox llv_price = new HBox(llv_price_text, llv_price_field);
+        llv_price.setAlignment(Pos.CENTER_LEFT);
 
             Label llv_cat_text = new Label("Category:");
-            llv_cat_text.setPrefWidth(80);
+            llv_cat_text.setPrefSize(80, 15);
             TextField llv_cat_field = new TextField();
 
         HBox llv_cat = new HBox(llv_cat_text, llv_cat_field);
+        llv_cat.setAlignment(Pos.CENTER_LEFT);
 
             Button llv_add = new Button("Add to Cart");
 
@@ -190,7 +194,7 @@ public class MainApp extends Application {
                 ulv_scroll.setContent(usv);
             });
 
-        VBox llv = new VBox(llv_title, llv_id, llv_name, llv_price, llv_cat, llv_button);
+        VBox llv = new VBox(llv_title_box, llv_id, llv_name, llv_price, llv_cat, llv_button);
         llv.setPrefHeight(300);
 
 //============================================================
@@ -203,33 +207,46 @@ public class MainApp extends Application {
 
         // upper right vbox
         Text urv_title = new Text("Buying List");
+        StackPane urv_title_box = new StackPane(urv_title);
 
         ScrollPane urv_scroll = new ScrollPane();
+        urv_scroll.setPrefSize(350, 210);
+        urv_scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        urv_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         VBox urv_scroll_v = new VBox();
 
-        VBox urv = new VBox(urv_title, urv_scroll);
+        VBox urv = new VBox(urv_title_box, urv_scroll);
         urv.setPrefHeight(250);
 
 //============================================================
 
         // lower right vbox
-        Text lrv_title = new Text("Details");
+        Text lrv_title = new Text("Transaction");
+        StackPane lrv_title_box = new StackPane(lrv_title);
 
-            Text lrv_tprice_text = new Text("Total Price:");
+            Label lrv_tprice_text = new Label("Total Price:");
+            lrv_tprice_text.setPrefSize(100, 15);
             Label lrv_tprice_label = new Label();
 
         HBox lrv_tprice = new HBox(lrv_tprice_text, lrv_tprice_label);
+        lrv_tprice.setAlignment(Pos.CENTER_LEFT);
 
-            Text lrv_disc_text = new Text("Discount:");
-            Label lrv_disc_label = new Label();
+            Label lrv_disc_text = new Label("Discount:");
+            lrv_disc_text.setPrefSize(100, 15);
+            TextField lrv_disc_label = new TextField();
+            lrv_disc_label.setPrefWidth(50);
+            Label percent = new Label("%");
 
-        HBox lrv_disc = new HBox(lrv_disc_text, lrv_disc_label);
+        HBox lrv_disc = new HBox(lrv_disc_text, lrv_disc_label, percent);
+        lrv_disc.setAlignment(Pos.CENTER_LEFT);
 
-            Text lrv_tpay_text = new Text("Total Pay:");
+            Label lrv_tpay_text = new Label("Total Pay:");
+            lrv_tpay_text.setPrefSize(100, 15);
             Label lrv_tpay_label = new Label();
 
         HBox lrv_tpay = new HBox(lrv_tpay_text, lrv_tpay_label);
+        lrv_tpay.setAlignment(Pos.CENTER_LEFT);
 
         llv_add.setOnAction(event -> {
             urv_scroll_v.getChildren().clear();
@@ -257,7 +274,7 @@ public class MainApp extends Application {
 
         HBox lrv_button = new HBox(lrv_pay, lrv_cancel);
 
-        VBox lrv = new VBox(lrv_title, lrv_tprice, lrv_disc, lrv_tpay, lrv_button);
+        VBox lrv = new VBox(lrv_title_box, lrv_tprice, lrv_disc, lrv_tpay, lrv_button);
         lrv.setPrefHeight(300);
 
 //============================================================
