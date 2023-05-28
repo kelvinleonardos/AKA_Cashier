@@ -26,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 application {
   mainModule = 'com.example.aka_cashier'
-  mainClass = 'com.example.aka_cashier.HelloApplication'
+  mainClass = 'com.example.aka_cashier.MainApp'
 }
 
 javafx {
