@@ -69,7 +69,10 @@ public class MainApp extends Application {
 
         // upper left vbox
         Text ulv_title = new Text("Products List");
+        ulv_title.setFont(Font.font(20));
         StackPane ulv_title_box = new StackPane(ulv_title);
+        ulv_title_box.setPrefSize(400, 40);
+        ulv_title_box.setAlignment(Pos.CENTER);
 
             // filter section
             Text ulv_filter_text = new Text("Filter:");
@@ -97,7 +100,10 @@ public class MainApp extends Application {
 
         // lower left vbox
         Text llv_title = new Text("Details");
+        llv_title.setFont(Font.font(20));
         StackPane llv_title_box = new StackPane(llv_title);
+        llv_title_box.setPrefSize(400, 40);
+        llv_title_box.setAlignment(Pos.CENTER);
 
             Label llv_id_text = new Label("Id:");
             llv_id_text.setPrefSize(80, 15);
@@ -105,6 +111,7 @@ public class MainApp extends Application {
 
         HBox llv_id = new HBox(llv_id_text, llv_id_field);
         llv_id.setAlignment(Pos.CENTER_LEFT);
+        llv_id.setPrefHeight(35);
 
             Label llv_name_text = new Label("Name:");
             llv_name_text.setPrefSize(80, 15);
@@ -112,6 +119,7 @@ public class MainApp extends Application {
 
         HBox llv_name = new HBox(llv_name_text, llv_name_field);
         llv_name.setAlignment(Pos.CENTER_LEFT);
+        llv_name.setPrefHeight(35);
 
             Label llv_price_text = new Label("Price:");
             llv_price_text.setPrefSize(80, 15);
@@ -119,6 +127,7 @@ public class MainApp extends Application {
 
         HBox llv_price = new HBox(llv_price_text, llv_price_field);
         llv_price.setAlignment(Pos.CENTER_LEFT);
+        llv_price.setPrefHeight(35);
 
             Label llv_cat_text = new Label("Category:");
             llv_cat_text.setPrefSize(80, 15);
@@ -126,6 +135,7 @@ public class MainApp extends Application {
 
         HBox llv_cat = new HBox(llv_cat_text, llv_cat_field);
         llv_cat.setAlignment(Pos.CENTER_LEFT);
+        llv_cat.setPrefHeight(35);
 
             Button llv_add = new Button("Add to Cart");
 
@@ -207,7 +217,10 @@ public class MainApp extends Application {
 
         // upper right vbox
         Text urv_title = new Text("Buying List");
+        urv_title.setFont(Font.font(20));
         StackPane urv_title_box = new StackPane(urv_title);
+        urv_title_box.setPrefSize(400, 40);
+        urv_title_box.setAlignment(Pos.CENTER);
 
         ScrollPane urv_scroll = new ScrollPane();
         urv_scroll.setPrefSize(350, 210);
@@ -223,7 +236,10 @@ public class MainApp extends Application {
 
         // lower right vbox
         Text lrv_title = new Text("Transaction");
+        lrv_title.setFont(Font.font(20));
         StackPane lrv_title_box = new StackPane(lrv_title);
+        lrv_title_box.setPrefSize(400, 40);
+        lrv_title_box.setAlignment(Pos.CENTER);
 
             Label lrv_tprice_text = new Label("Total Price:");
             lrv_tprice_text.setPrefSize(100, 15);
@@ -297,3 +313,4 @@ public class MainApp extends Application {
     }
 
 }
+
