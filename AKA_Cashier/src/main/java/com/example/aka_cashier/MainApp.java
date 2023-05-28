@@ -3,12 +3,14 @@ import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
@@ -67,6 +69,10 @@ public class MainApp extends Application {
 
         // upper left vbox
         Text ulv_title = new Text("Products List");
+        ulv_title.setFont(Font.font(20));
+        StackPane ulv_title_box = new StackPane(ulv_title);
+        ulv_title_box.setPrefSize(400, 40);
+        ulv_title_box.setAlignment(Pos.CENTER);
 
             // filter section
             Text ulv_filter_text = new Text("Filter:");
@@ -76,13 +82,16 @@ public class MainApp extends Application {
 
             // scrollpane secton
             ScrollPane ulv_scroll = new ScrollPane();
-            ulv_scroll.setPrefSize(350, 180);
+            ulv_scroll.setPrefSize(350, 150);
 
                 VBox usv = new VBox();
 
         HBox ulv_filter = new HBox(ulv_filter_text, ulv_filter_box);
+        ulv_filter.setPrefSize(400, 35);
+        ulv_filter.setSpacing(20);
+        ulv_filter.setAlignment(Pos.CENTER_LEFT);
 
-        VBox ulv = new VBox(ulv_title, ulv_filter, ulv_scroll);
+        VBox ulv = new VBox(ulv_title_box, ulv_filter, ulv_scroll);
         ulv.setPrefHeight(250);
 
 //============================================================
