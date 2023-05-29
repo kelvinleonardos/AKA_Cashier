@@ -1,4 +1,5 @@
 package com.example.aka_cashier;
+
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.application.Application;
@@ -33,7 +34,7 @@ public class MainApp extends Application {
     }
 
     // scene 1: app logo
-    private Scene getScene1(){
+    private Scene getScene1() {
 
         ImageView logo = new ImageView("images/logo.png");
         logo.setPreserveRatio(true);
@@ -55,16 +56,16 @@ public class MainApp extends Application {
     }
 
     // scene 2: main page
-    private Scene getScene2(){
+    private Scene getScene2() {
 
-         /*
-         - upper left vbox
-         - lower left vbox
-         - left main section
-         - upper right vbox
-         - lower right vbox
-         - right main section
-         - hbox: join left and right section
+        /*
+         * - upper left vbox
+         * - lower left vbox
+         * - left main section
+         * - upper right vbox
+         * - lower right vbox
+         * - right main section
+         * - hbox: join left and right section
          */
 
         // upper left vbox
@@ -74,19 +75,20 @@ public class MainApp extends Application {
         ulv_title_box.setPrefSize(400, 40);
         ulv_title_box.setAlignment(Pos.CENTER);
 
-            // filter section
-            Text ulv_filter_text = new Text("Filter:");
-            ComboBox<String> ulv_filter_box = new ComboBox<>();
+        // filter section
+        Text ulv_filter_text = new Text("Filter:");
+        ComboBox<String> ulv_filter_box = new ComboBox<>();
 
-                ulv_filter_box.setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+        ulv_filter_box
+                .setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
 
-            // scrollpane secton
-            ScrollPane ulv_scroll = new ScrollPane();
-            ulv_scroll.setPrefSize(350, 180);
-            ulv_scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-            ulv_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        // scrollpane secton
+        ScrollPane ulv_scroll = new ScrollPane();
+        ulv_scroll.setPrefSize(350, 180);
+        ulv_scroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        ulv_scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
-                VBox usv = new VBox();
+        VBox usv = new VBox();
 
         HBox ulv_filter = new HBox(ulv_filter_text, ulv_filter_box);
         ulv_filter.setPrefSize(400, 30);
@@ -96,54 +98,117 @@ public class MainApp extends Application {
         VBox ulv = new VBox(ulv_title_box, ulv_filter, ulv_scroll);
         ulv.setPrefHeight(250);
 
-//============================================================
+        // ============================================================
 
         // lower left vbox
-        Text llv_title = new Text("Details");
+        Label llv_title = new Label("Details");
         llv_title.setFont(Font.font(20));
         StackPane llv_title_box = new StackPane(llv_title);
-        llv_title_box.setPrefSize(400, 40);
+        llv_title_box.setPrefSize(300, 40);
         llv_title_box.setAlignment(Pos.CENTER);
 
-            Label llv_id_text = new Label("Id:");
-            llv_id_text.setPrefSize(80, 15);
-            TextField llv_id_field = new TextField();
+        Label llv_id_text = new Label("Id:");
+        llv_id_text.setPrefSize(80, 15);
+        TextField llv_id_field = new TextField();
+        llv_id_field.setEditable(false);
 
         HBox llv_id = new HBox(llv_id_text, llv_id_field);
         llv_id.setAlignment(Pos.CENTER_LEFT);
         llv_id.setPrefHeight(35);
 
-            Label llv_name_text = new Label("Name:");
-            llv_name_text.setPrefSize(80, 15);
-            TextField llv_name_field = new TextField();
+        Label llv_name_text = new Label("Name:");
+        llv_name_text.setPrefSize(80, 15);
+        TextField llv_name_field = new TextField();
+        llv_name_field.setEditable(false);
 
         HBox llv_name = new HBox(llv_name_text, llv_name_field);
         llv_name.setAlignment(Pos.CENTER_LEFT);
         llv_name.setPrefHeight(35);
 
-            Label llv_price_text = new Label("Price:");
-            llv_price_text.setPrefSize(80, 15);
-            TextField llv_price_field = new TextField();
+        Label llv_price_text = new Label("Price:");
+        llv_price_text.setPrefSize(80, 15);
+        TextField llv_price_field = new TextField();
+        llv_price_field.setEditable(false);
 
         HBox llv_price = new HBox(llv_price_text, llv_price_field);
         llv_price.setAlignment(Pos.CENTER_LEFT);
         llv_price.setPrefHeight(35);
 
-            Label llv_cat_text = new Label("Category:");
-            llv_cat_text.setPrefSize(80, 15);
-            TextField llv_cat_field = new TextField();
+        Label llv_amount_text = new Label("amount:");
+        llv_amount_text.setPrefSize(80, 15);
+        TextField llv_amount_field = new TextField();
+
+        HBox llv_amount = new HBox(llv_amount_text, llv_amount_field);
+        llv_amount.setAlignment(Pos.CENTER_LEFT);
+        llv_amount.setPrefHeight(35);
+
+        Label llv_stock_text = new Label("Stock:");
+        llv_stock_text.setPrefSize(80, 15);
+        TextField llv_stock_field = new TextField();
+        llv_stock_field.setEditable(false);
+
+        HBox llv_stock = new HBox(llv_stock_text, llv_stock_field);
+        llv_stock.setAlignment(Pos.CENTER_LEFT);
+        llv_stock.setPrefHeight(35);
+
+        Label llv_cat_text = new Label("Category:");
+        llv_cat_text.setPrefSize(80, 15);
+        TextField llv_cat_field = new TextField();
+        llv_cat_field.setEditable(false);
 
         HBox llv_cat = new HBox(llv_cat_text, llv_cat_field);
         llv_cat.setAlignment(Pos.CENTER_LEFT);
         llv_cat.setPrefHeight(35);
 
-            Button llv_add = new Button("Add to Cart");
+        Button llv_add = new Button("Add to Cart");
 
-            Button llv_reset = new Button("Reset");
+        Button llv_reset = new Button("Reset");
+
+        llv_reset.setOnAction(event -> {
+            llv_id_field.clear();
+            llv_name_field.clear();
+            llv_price_field.clear();
+            llv_cat_field.clear();
+            llv_stock_field.clear();
+        });
 
         HBox llv_button = new HBox(llv_add, llv_reset);
 
-            for (String i:MyConfig.getDatabaseCol("id", "All", false, false)) {
+        for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+
+            Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+            lid.setPrefSize(40, 20);
+            Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+            lname.setPrefSize(120, 20);
+            Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+            lprice.setPrefSize(120, 20);
+            Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+            lstock.setPrefSize(40, 20);
+            Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+            lcat.setPrefSize(100, 20);
+
+            HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+
+            Button b = new Button();
+
+            b.setGraphic(h);
+
+            b.setOnAction(event -> {
+                llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+            });
+
+            usv.getChildren().add(b);
+
+        }
+        ulv_scroll.setContent(usv);
+
+        ulv_filter_box.setOnAction(event -> {
+            usv.getChildren().clear();
+            for (String i : MyConfig.getDatabaseCol("id", ulv_filter_box.getValue(), false, false)) {
 
                 Label lid = new Label(MyConfig.getElmbyId(i, "id"));
                 lid.setPrefSize(40, 20);
@@ -151,19 +216,22 @@ public class MainApp extends Application {
                 lname.setPrefSize(120, 20);
                 Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
                 lprice.setPrefSize(120, 20);
+                Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                lstock.setPrefSize(40, 20);
                 Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
                 lcat.setPrefSize(100, 20);
 
-                HBox h = new HBox(lid, lname, lprice, lcat);
+                HBox h = new HBox(lid, lname, lprice, lstock, lcat);
 
                 Button b = new Button();
 
                 b.setGraphic(h);
 
-                b.setOnAction(event -> {
+                b.setOnAction(ev -> {
                     llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
                     llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
                     llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                    llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
                     llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                 });
 
@@ -171,10 +239,43 @@ public class MainApp extends Application {
 
             }
             ulv_scroll.setContent(usv);
+        });
 
-            ulv_filter_box.setOnAction(event -> {
+        VBox llv_con = new VBox(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
+
+        Button add_con = new Button("Add Product");
+        add_con.setPrefSize(100, 40);
+        add_con.setAlignment(Pos.CENTER_LEFT);
+
+        add_con.setOnAction(event -> {
+            llv_title.setText("Add Product");
+            llv_con.getChildren().clear();
+
+            llv_name_field.clear();
+            llv_name_field.setEditable(true);
+            llv_price_field.clear();
+            llv_price_field.setEditable(true);
+            llv_stock_field.clear();
+            llv_stock_field.setEditable(true);
+            llv_cat_field.clear();
+            llv_cat_field.setEditable(true);
+
+            llv_id_field.clear();
+            llv_amount_field.clear();
+
+            llv_add.setText("Add Product");
+
+            llv_add.setOnAction(event1 -> {
+
+                MyConfig.addElm(llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()),
+                        Integer.parseInt(llv_stock_field.getText()), llv_cat_field.getText());
+
+                ulv_filter_box.setItems(
+                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+
                 usv.getChildren().clear();
-                for (String i:MyConfig.getDatabaseCol("id", ulv_filter_box.getValue(), false, false)) {
+
+                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
 
                     Label lid = new Label(MyConfig.getElmbyId(i, "id"));
                     lid.setPrefSize(40, 20);
@@ -182,19 +283,22 @@ public class MainApp extends Application {
                     lname.setPrefSize(120, 20);
                     Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
                     lprice.setPrefSize(120, 20);
+                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                    lstock.setPrefSize(40, 20);
                     Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
                     lcat.setPrefSize(100, 20);
 
-                    HBox h = new HBox(lid, lname, lprice, lcat);
+                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
 
                     Button b = new Button();
 
                     b.setGraphic(h);
 
-                    b.setOnAction(ev -> {
+                    b.setOnAction(event4 -> {
                         llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
                         llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
                         llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
                         llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                     });
 
@@ -202,18 +306,197 @@ public class MainApp extends Application {
 
                 }
                 ulv_scroll.setContent(usv);
+
+                ulv_filter_box.setValue("All");
+
             });
 
-        VBox llv = new VBox(llv_title_box, llv_id, llv_name, llv_price, llv_cat, llv_button);
+            llv_con.getChildren().addAll(llv_title_box, llv_name, llv_price, llv_stock, llv_cat, llv_button);
+        });
+
+        Button det_con = new Button("Details");
+        det_con.setPrefSize(100, 40);
+        det_con.setAlignment(Pos.CENTER_LEFT);
+
+        det_con.setOnAction(event -> {
+            llv_title.setText("Details");
+            llv_con.getChildren().clear();
+
+            llv_id_field.clear();
+            llv_name_field.clear();
+            llv_price_field.clear();
+            llv_amount_field.clear();
+
+            llv_id_field.setEditable(false);
+            llv_name_field.setEditable(false);
+            llv_price_field.setEditable(false);
+            llv_amount_field.setEditable(true);
+
+            llv_add.setText("Add to Cart");
+
+            llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
+        });
+
+        Button edt_con = new Button("Edit");
+        edt_con.setPrefSize(100, 40);
+        edt_con.setAlignment(Pos.CENTER_LEFT);
+
+        edt_con.setOnAction(event5 -> {
+            llv_title.setText("Edit Data");
+            llv_con.getChildren().clear();
+
+            llv_id_field.clear();
+            llv_id_field.setEditable(false);
+
+            llv_name_field.setEditable(true);
+            llv_price_field.setEditable(true);
+            llv_stock_field.setEditable(true);
+            llv_cat_field.setEditable(true);
+
+            llv_add.setText("Edit Data");
+
+            llv_add.setOnAction(event1 -> {
+
+                MyConfig.editElm(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                        Integer.parseInt(llv_price_field.getText()), Integer.parseInt(llv_stock_field.getText()),
+                        llv_cat_field.getText());
+
+                ulv_filter_box.setItems(
+                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+
+                usv.getChildren().clear();
+
+                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+
+                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                    lid.setPrefSize(40, 20);
+                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                    lname.setPrefSize(120, 20);
+                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                    lprice.setPrefSize(120, 20);
+                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                    lstock.setPrefSize(40, 20);
+                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                    lcat.setPrefSize(100, 20);
+
+                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+
+                    Button b = new Button();
+
+                    b.setGraphic(h);
+
+                    b.setOnAction(event4 -> {
+                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    });
+
+                    usv.getChildren().add(b);
+
+                }
+                ulv_scroll.setContent(usv);
+
+                ulv_filter_box.setValue("All");
+
+                llv_id_field.clear();
+                llv_name_field.clear();
+                llv_price_field.clear();
+                llv_stock_field.clear();
+                llv_cat_field.clear();
+
+            });
+
+            llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_stock, llv_cat, llv_button);
+        });
+
+        Button del_con = new Button("Delete");
+        del_con.setPrefSize(100, 40);
+        del_con.setAlignment(Pos.CENTER_LEFT);
+
+        del_con.setOnAction(event6 -> {
+            llv_title.setText("Delete Product");
+            llv_con.getChildren().clear();
+
+            llv_id_field.clear();
+            llv_id_field.setEditable(false);
+
+            llv_name_field.setEditable(false);
+            llv_price_field.setEditable(false);
+            llv_stock_field.setEditable(false);
+            llv_cat_field.setEditable(false);
+
+            llv_add.setText("Delete Product");
+
+            llv_add.setOnAction(event1 -> {
+
+                MyConfig.delElm(Integer.parseInt(llv_id_field.getText()));
+
+                ulv_filter_box.setItems(
+                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+
+                usv.getChildren().clear();
+
+                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+
+                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                    lid.setPrefSize(40, 20);
+                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                    lname.setPrefSize(120, 20);
+                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                    lprice.setPrefSize(120, 20);
+                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                    lstock.setPrefSize(40, 20);
+                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                    lcat.setPrefSize(100, 20);
+
+                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+
+                    Button b = new Button();
+
+                    b.setGraphic(h);
+
+                    b.setOnAction(event4 -> {
+                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    });
+
+                    usv.getChildren().add(b);
+
+                }
+                ulv_scroll.setContent(usv);
+
+                ulv_filter_box.setValue("All");
+
+                llv_id_field.clear();
+                llv_name_field.clear();
+                llv_price_field.clear();
+                llv_stock_field.clear();
+                llv_cat_field.clear();
+
+            });
+
+            llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_stock, llv_cat, llv_button);
+        });
+
+        VBox llv_sb = new VBox(add_con, det_con, edt_con, del_con);
+        llv_sb.setPrefSize(100, 300);
+        llv_sb.setAlignment(Pos.CENTER);
+
+        HBox llv = new HBox(llv_sb, llv_con);
         llv.setPrefHeight(300);
 
-//============================================================
+        // ============================================================
 
         // left main section
         VBox lms = new VBox(ulv, llv);
         lms.setPrefWidth(400);
 
-//============================================================
+        // ============================================================
 
         // upper right vbox
         Text urv_title = new Text("Buying List");
@@ -232,7 +515,7 @@ public class MainApp extends Application {
         VBox urv = new VBox(urv_title_box, urv_scroll);
         urv.setPrefHeight(250);
 
-//============================================================
+        // ============================================================
 
         // lower right vbox
         Text lrv_title = new Text("Transaction");
@@ -241,33 +524,34 @@ public class MainApp extends Application {
         lrv_title_box.setPrefSize(400, 40);
         lrv_title_box.setAlignment(Pos.CENTER);
 
-            Label lrv_tprice_text = new Label("Total Price:");
-            lrv_tprice_text.setPrefSize(100, 15);
-            Label lrv_tprice_label = new Label();
+        Label lrv_tprice_text = new Label("Total Price:");
+        lrv_tprice_text.setPrefSize(100, 15);
+        Label lrv_tprice_label = new Label();
 
         HBox lrv_tprice = new HBox(lrv_tprice_text, lrv_tprice_label);
         lrv_tprice.setAlignment(Pos.CENTER_LEFT);
 
-            Label lrv_disc_text = new Label("Discount:");
-            lrv_disc_text.setPrefSize(100, 15);
-            TextField lrv_disc_label = new TextField();
-            lrv_disc_label.setPrefWidth(50);
-            Label percent = new Label("%");
+        Label lrv_disc_text = new Label("Discount:");
+        lrv_disc_text.setPrefSize(100, 15);
+        TextField lrv_disc_label = new TextField();
+        lrv_disc_label.setPrefWidth(50);
+        Label percent = new Label("%");
 
         HBox lrv_disc = new HBox(lrv_disc_text, lrv_disc_label, percent);
         lrv_disc.setAlignment(Pos.CENTER_LEFT);
 
-            Label lrv_tpay_text = new Label("Total Pay:");
-            lrv_tpay_text.setPrefSize(100, 15);
-            Label lrv_tpay_label = new Label();
+        Label lrv_tpay_text = new Label("Total Pay:");
+        lrv_tpay_text.setPrefSize(100, 15);
+        Label lrv_tpay_label = new Label();
 
         HBox lrv_tpay = new HBox(lrv_tpay_text, lrv_tpay_label);
         lrv_tpay.setAlignment(Pos.CENTER_LEFT);
 
         llv_add.setOnAction(event -> {
             urv_scroll_v.getChildren().clear();
-            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText());
-            for (Product p : Cart.getP()){
+            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                    Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText());
+            for (Product p : Cart.getP()) {
                 Label l1 = new Label();
                 l1.setPrefWidth(80);
                 Label l2 = new Label();
@@ -285,15 +569,15 @@ public class MainApp extends Application {
 
         urv_scroll.setContent(urv_scroll_v);
 
-            Button lrv_pay = new Button("Pay");
-            Button lrv_cancel = new Button("Cancel");
+        Button lrv_pay = new Button("Pay");
+        Button lrv_cancel = new Button("Cancel");
 
         HBox lrv_button = new HBox(lrv_pay, lrv_cancel);
 
         VBox lrv = new VBox(lrv_title_box, lrv_tprice, lrv_disc, lrv_tpay, lrv_button);
         lrv.setPrefHeight(300);
 
-//============================================================
+        // ============================================================
 
         // right main section
         VBox rms = new VBox(urv, lrv);
@@ -313,4 +597,3 @@ public class MainApp extends Application {
     }
 
 }
-
