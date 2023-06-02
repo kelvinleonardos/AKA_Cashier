@@ -78,6 +78,7 @@ public class MainApp extends Application {
         // filter section
         Text ulv_filter_text = new Text("Filter:");
         ComboBox<String> ulv_filter_box = new ComboBox<>();
+        ulv_filter_box.setStyle("-fx-background-color: white;");
 
         ulv_filter_box
                 .setItems(FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
@@ -96,6 +97,8 @@ public class MainApp extends Application {
         ulv_filter.setAlignment(Pos.CENTER_LEFT);
 
         VBox ulv = new VBox(ulv_title_box, ulv_filter, ulv_scroll);
+        ulv.setStyle("-fx-background-color: #FCEBB6; -fx-padding: 0 10 10 10;");
+
         ulv.setPrefHeight(250);
 
         // ============================================================
@@ -161,8 +164,12 @@ public class MainApp extends Application {
         llv_cat.setPrefHeight(35);
 
         Button llv_add = new Button("Add to Cart");
+        llv_add.setPrefSize(120, 30);
+        llv_add.setStyle("-fx-background-color: #78C0A8;");
 
         Button llv_reset = new Button("Reset");
+        llv_reset.setPrefSize(120, 30);
+        llv_reset.setStyle("-fx-background-color: #78C0A8;");
 
         llv_reset.setOnAction(event -> {
             llv_id_field.clear();
@@ -173,6 +180,9 @@ public class MainApp extends Application {
         });
 
         HBox llv_button = new HBox(llv_add, llv_reset);
+        llv_button.setAlignment(Pos.CENTER);
+        llv_button.setSpacing(20);
+        llv_button.getStyleClass().add("llv_button");
 
         for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
 
@@ -200,6 +210,8 @@ public class MainApp extends Application {
                 llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
                 llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
             });
+
+            b.getStyleClass().add("lis_col");
 
             usv.getChildren().add(b);
 
@@ -235,6 +247,8 @@ public class MainApp extends Application {
                     llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                 });
 
+                b.getStyleClass().add("lis_col");
+
                 usv.getChildren().add(b);
 
             }
@@ -242,12 +256,39 @@ public class MainApp extends Application {
         });
 
         VBox llv_con = new VBox(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
+        llv_con.setId("llv_con");
 
-        Button add_con = new Button("Add Product");
+        Button add_con = new Button("Add");
         add_con.setPrefSize(100, 40);
         add_con.setAlignment(Pos.CENTER_LEFT);
+        add_con.getStyleClass().add("side_button");
+        add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
+        Button det_con = new Button("Details");
+        det_con.setPrefSize(100, 40);
+        det_con.setAlignment(Pos.CENTER_LEFT);
+        det_con.getStyleClass().add("side_button");
+        det_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+
+        Button edt_con = new Button("Edit");
+        edt_con.setPrefSize(100, 40);
+        edt_con.setAlignment(Pos.CENTER_LEFT);
+        edt_con.getStyleClass().add("side_button");
+        edt_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
+        Button del_con = new Button("Delete");
+        del_con.setPrefSize(100, 40);
+        del_con.setAlignment(Pos.CENTER_LEFT);
+        del_con.getStyleClass().add("side_button");
+        del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
 
         add_con.setOnAction(event -> {
+
+            add_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+            det_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            edt_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
             llv_title.setText("Add Product");
             llv_con.getChildren().clear();
 
@@ -302,6 +343,8 @@ public class MainApp extends Application {
                         llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                     });
 
+                    b.getStyleClass().add("lis_col");
+
                     usv.getChildren().add(b);
 
                 }
@@ -314,43 +357,26 @@ public class MainApp extends Application {
             llv_con.getChildren().addAll(llv_title_box, llv_name, llv_price, llv_stock, llv_cat, llv_button);
         });
 
-        Button det_con = new Button("Details");
-        det_con.setPrefSize(100, 40);
-        det_con.setAlignment(Pos.CENTER_LEFT);
-
-        det_con.setOnAction(event -> {
-            llv_title.setText("Details");
-            llv_con.getChildren().clear();
-
-            llv_id_field.clear();
-            llv_name_field.clear();
-            llv_price_field.clear();
-            llv_amount_field.clear();
-
-            llv_id_field.setEditable(false);
-            llv_name_field.setEditable(false);
-            llv_price_field.setEditable(false);
-            llv_amount_field.setEditable(true);
-
-            llv_add.setText("Add to Cart");
-
-            llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
-        });
-
-        Button edt_con = new Button("Edit");
-        edt_con.setPrefSize(100, 40);
-        edt_con.setAlignment(Pos.CENTER_LEFT);
-
         edt_con.setOnAction(event5 -> {
+
+            add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            det_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            edt_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+            del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
             llv_title.setText("Edit Data");
             llv_con.getChildren().clear();
 
             llv_id_field.clear();
             llv_id_field.setEditable(false);
 
+            llv_name_field.clear();
             llv_name_field.setEditable(true);
+            llv_price_field.clear();
             llv_price_field.setEditable(true);
+            llv_stock_field.clear();
             llv_stock_field.setEditable(true);
+            llv_cat_field.clear();
             llv_cat_field.setEditable(true);
 
             llv_add.setText("Edit Data");
@@ -393,6 +419,8 @@ public class MainApp extends Application {
                         llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                     });
 
+                    b.getStyleClass().add("lis_col");
+
                     usv.getChildren().add(b);
 
                 }
@@ -411,20 +439,26 @@ public class MainApp extends Application {
             llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_stock, llv_cat, llv_button);
         });
 
-        Button del_con = new Button("Delete");
-        del_con.setPrefSize(100, 40);
-        del_con.setAlignment(Pos.CENTER_LEFT);
-
         del_con.setOnAction(event6 -> {
+
+            add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            det_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            edt_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            del_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+
             llv_title.setText("Delete Product");
             llv_con.getChildren().clear();
 
             llv_id_field.clear();
             llv_id_field.setEditable(false);
 
+            llv_name_field.clear();
             llv_name_field.setEditable(false);
+            llv_price_field.clear();
             llv_price_field.setEditable(false);
+            llv_stock_field.clear();
             llv_stock_field.setEditable(false);
+            llv_cat_field.clear();
             llv_cat_field.setEditable(false);
 
             llv_add.setText("Delete Product");
@@ -465,6 +499,8 @@ public class MainApp extends Application {
                         llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
                     });
 
+                    b.getStyleClass().add("lis_col");
+
                     usv.getChildren().add(b);
 
                 }
@@ -486,6 +522,7 @@ public class MainApp extends Application {
         VBox llv_sb = new VBox(add_con, det_con, edt_con, del_con);
         llv_sb.setPrefSize(100, 300);
         llv_sb.setAlignment(Pos.CENTER);
+        llv_sb.setId("side_bar");
 
         HBox llv = new HBox(llv_sb, llv_con);
         llv.setPrefHeight(300);
@@ -513,6 +550,7 @@ public class MainApp extends Application {
         VBox urv_scroll_v = new VBox();
 
         VBox urv = new VBox(urv_title_box, urv_scroll);
+        urv.setStyle("-fx-background-color: #FCEBB6; -fx-padding: 0 10 10 10;");
         urv.setPrefHeight(250);
 
         // ============================================================
@@ -530,51 +568,449 @@ public class MainApp extends Application {
 
         HBox lrv_tprice = new HBox(lrv_tprice_text, lrv_tprice_label);
         lrv_tprice.setAlignment(Pos.CENTER_LEFT);
+        lrv_tprice.setPrefHeight(35);
 
         Label lrv_disc_text = new Label("Discount:");
         lrv_disc_text.setPrefSize(100, 15);
         TextField lrv_disc_label = new TextField();
+
         lrv_disc_label.setPrefWidth(50);
         Label percent = new Label("%");
 
         HBox lrv_disc = new HBox(lrv_disc_text, lrv_disc_label, percent);
         lrv_disc.setAlignment(Pos.CENTER_LEFT);
+        lrv_disc.setPrefHeight(35);
 
         Label lrv_tpay_text = new Label("Total Pay:");
         lrv_tpay_text.setPrefSize(100, 15);
         Label lrv_tpay_label = new Label();
 
+        lrv_disc_label.setOnAction(event8 -> {
+            double sblm = Double.parseDouble(lrv_tprice_label.getText());
+            double disc = Double.parseDouble(lrv_disc_label.getText());
+            double ssdh = sblm-((sblm*disc)/100);
+            lrv_tpay_label.setText(String.valueOf(ssdh));
+        });
+
         HBox lrv_tpay = new HBox(lrv_tpay_text, lrv_tpay_label);
         lrv_tpay.setAlignment(Pos.CENTER_LEFT);
+        lrv_tpay.setPrefHeight(35);
 
         llv_add.setOnAction(event -> {
-            urv_scroll_v.getChildren().clear();
-            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
-                    Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText());
-            for (Product p : Cart.getP()) {
-                Label l1 = new Label();
-                l1.setPrefWidth(80);
-                Label l2 = new Label();
-                l2.setPrefWidth(80);
-                Label l3 = new Label();
-                l3.setPrefWidth(40);
-                l1.setText(p.getName());
-                l2.setText(String.valueOf(p.getPrice()));
-                l3.setText(String.valueOf(p.getCount()));
-                HBox ll = new HBox(l1, l2, l3);
-                urv_scroll_v.getChildren().add(ll);
-                lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+            try {
+                if (Cart.getPn().contains(llv_name_field.getText())) {
+                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount()) {
+                        urv_scroll_v.getChildren().clear();
+                        Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                                Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
+                        for (Product p : Cart.getP()) {
+                            Label l1 = new Label();
+                            l1.setPrefSize(100, 20);
+                            Label l2 = new Label();
+                            l2.setPrefSize(80, 20);
+                            Label l3 = new Label();
+                            l3.setPrefSize(40, 20);
+                            l1.setText(p.getName());
+                            l2.setText(String.valueOf(p.getPrice()));
+                            l3.setText(String.valueOf(p.getCount()));
+                            HBox ll = new HBox(l1, l2, l3);
+                            urv_scroll_v.getChildren().add(ll);
+                            lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+                        }
+                    } else {
+                        Text tomax = new Text("The Product Amount Kebanyakan!");
+
+                        StackPane tomaxst = new StackPane(tomax);
+                        tomaxst.setPrefSize(200, 100);
+
+                        Button buok = new Button("Ok");
+                        buok.setPrefSize(70, 25);
+
+                        VBox tom = new VBox(tomaxst, buok);
+                        tom.setAlignment(Pos.CENTER);
+
+                        Scene keb = new Scene(tom, 250, 140);
+
+                        Stage kebs = new Stage();
+                        kebs.setScene(keb);
+                        kebs.setTitle("AKA CASHIER");
+                        kebs.setResizable(false);
+                        kebs.show();
+
+                        buok.setOnAction(event39 -> {
+                            kebs.close();
+                        });
+                    }
+                } else {
+                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
+                        urv_scroll_v.getChildren().clear();
+                        Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                                Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
+                        for (Product p : Cart.getP()) {
+                            Label l1 = new Label();
+                            l1.setPrefSize(100, 20);
+                            Label l2 = new Label();
+                            l2.setPrefSize(80, 20);
+                            Label l3 = new Label();
+                            l3.setPrefSize(40, 20);
+                            l1.setText(p.getName());
+                            l2.setText(String.valueOf(p.getPrice()));
+                            l3.setText(String.valueOf(p.getCount()));
+                            HBox ll = new HBox(l1, l2, l3);
+                            urv_scroll_v.getChildren().add(ll);
+                            lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+                        }
+                    } else {
+                        Text tomax = new Text("The Product Amount Kebanyakan!");
+
+                        StackPane tomaxst = new StackPane(tomax);
+                        tomaxst.setPrefSize(200, 100);
+
+                        Button buok = new Button("Ok");
+                        buok.setPrefSize(70, 25);
+
+                        VBox tom = new VBox(tomaxst, buok);
+                        tom.setAlignment(Pos.CENTER);
+
+                        Scene keb = new Scene(tom, 250, 140);
+
+                        Stage kebs = new Stage();
+                        kebs.setScene(keb);
+                        kebs.setTitle("AKA CASHIER");
+                        kebs.setResizable(false);
+                        kebs.show();
+
+                        buok.setOnAction(event39 -> {
+                            kebs.close();
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                Text amount_warn = new Text("Please Insert Product Amount!");
+
+                StackPane saw = new StackPane(amount_warn);
+                saw.setPrefSize(200, 100);
+
+                Button bok = new Button("Ok");
+                bok.setPrefSize(70, 25);
+
+                VBox not = new VBox(saw, bok);
+                not.setAlignment(Pos.CENTER);
+
+                Scene sawnot = new Scene(not, 250, 140);
+
+                Stage sawt = new Stage();
+                sawt.setScene(sawnot);
+                sawt.setTitle("AKA CASHIER");
+                sawt.setResizable(false);
+                sawt.show();
+
+                bok.setOnAction(event39 -> {
+                    sawt.close();
+                });
             }
+            llv_id_field.clear();
+            llv_name_field.clear();
+            llv_price_field.clear();
+            llv_amount_field.clear();
+            llv_cat_field.clear();
+        });
+
+        det_con.setOnAction(event -> {
+
+            add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            det_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+            edt_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
+            llv_title.setText("Details");
+            llv_con.getChildren().clear();
+
+            llv_id_field.clear();
+            llv_name_field.clear();
+            llv_price_field.clear();
+            llv_amount_field.clear();
+
+            llv_id_field.setEditable(false);
+            llv_name_field.setEditable(false);
+            llv_price_field.setEditable(false);
+            llv_amount_field.setEditable(true);
+
+            llv_add.setText("Add to Cart");
+
+            llv_add.setOnAction(event23 -> {
+                try {
+                    if (Cart.getPn().contains(llv_name_field.getText())) {
+                        if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount()) {
+                            urv_scroll_v.getChildren().clear();
+                            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                                    Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
+                            for (Product p : Cart.getP()) {
+                                Label l1 = new Label();
+                                l1.setPrefSize(100, 20);
+                                Label l2 = new Label();
+                                l2.setPrefSize(80, 20);
+                                Label l3 = new Label();
+                                l3.setPrefSize(40, 20);
+                                l1.setText(p.getName());
+                                l2.setText(String.valueOf(p.getPrice()));
+                                l3.setText(String.valueOf(p.getCount()));
+                                HBox ll = new HBox(l1, l2, l3);
+                                urv_scroll_v.getChildren().add(ll);
+                                lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+                            }
+                        } else {
+                            Text tomax = new Text("The Product Amount Kebanyakan!");
+
+                            StackPane tomaxst = new StackPane(tomax);
+                            tomaxst.setPrefSize(200, 100);
+
+                            Button buok = new Button("Ok");
+                            buok.setPrefSize(70, 25);
+
+                            VBox tom = new VBox(tomaxst, buok);
+                            tom.setAlignment(Pos.CENTER);
+
+                            Scene keb = new Scene(tom, 250, 140);
+
+                            Stage kebs = new Stage();
+                            kebs.setScene(keb);
+                            kebs.setTitle("AKA CASHIER");
+                            kebs.setResizable(false);
+                            kebs.show();
+
+                            buok.setOnAction(event39 -> {
+                                kebs.close();
+                            });
+                        }
+                    } else {
+			            if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
+                            urv_scroll_v.getChildren().clear();
+                            Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                                    Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
+                            for (Product p : Cart.getP()) {
+                                Label l1 = new Label();
+                                l1.setPrefSize(100, 20);
+                                Label l2 = new Label();
+                                l2.setPrefSize(80, 20);
+                                Label l3 = new Label();
+                                l3.setPrefSize(40, 20);
+                                l1.setText(p.getName());
+                                l2.setText(String.valueOf(p.getPrice()));
+                                l3.setText(String.valueOf(p.getCount()));
+                                HBox ll = new HBox(l1, l2, l3);
+                                urv_scroll_v.getChildren().add(ll);
+                                lrv_tprice_label.setText(String.valueOf(Cart.calc_total()));
+                            }
+                        } else {
+                            Text tomax = new Text("The Product Amount Kebanyakan!");
+
+                            StackPane tomaxst = new StackPane(tomax);
+                            tomaxst.setPrefSize(200, 100);
+
+                            Button buok = new Button("Ok");
+                            buok.setPrefSize(70, 25);
+
+                            VBox tom = new VBox(tomaxst, buok);
+                            tom.setAlignment(Pos.CENTER);
+
+                            Scene keb = new Scene(tom, 250, 140);
+
+                            Stage kebs = new Stage();
+                            kebs.setScene(keb);
+                            kebs.setTitle("AKA CASHIER");
+                            kebs.setResizable(false);
+                            kebs.show();
+
+                            buok.setOnAction(event39 -> {
+                                kebs.close();
+                            });
+                        }
+                    }
+                } catch (Exception e) {
+                    Text amount_warn = new Text("Please Insert Product Amount!");
+
+                    StackPane saw = new StackPane(amount_warn);
+                    saw.setPrefSize(200, 100);
+
+                    Button bok = new Button("Ok");
+                    bok.setPrefSize(70, 25);
+
+                    VBox not = new VBox(saw, bok);
+                    not.setAlignment(Pos.CENTER);
+
+                    Scene sawnot = new Scene(not, 250, 140);
+
+                    Stage sawt = new Stage();
+                    sawt.setScene(sawnot);
+                    sawt.setTitle("AKA CASHIER");
+                    sawt.setResizable(false);
+                    sawt.show();
+
+                    bok.setOnAction(event39 -> {
+                        sawt.close();
+                    });
+                }
+                llv_id_field.clear();
+                llv_name_field.clear();
+                llv_price_field.clear();
+                llv_amount_field.clear();
+                llv_cat_field.clear();
+            });
+
+            llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
         });
 
         urv_scroll.setContent(urv_scroll_v);
 
         Button lrv_pay = new Button("Pay");
-        Button lrv_cancel = new Button("Cancel");
+        lrv_pay.setPrefSize(120, 30);
+        lrv_pay.setStyle("-fx-background-color: #78C0A8;");
 
-        HBox lrv_button = new HBox(lrv_pay, lrv_cancel);
+        lrv_pay.setOnAction(event9 -> {
+
+            for (Product f:Cart.getP()) {
+                int fj = Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"));
+                MyConfig.editElm(f.getId(), f.getName(), f.getPrice(), Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"))-f.getCount(), MyConfig.getElmbyId(String.valueOf(f.getId()), "category"));
+                System.out.println(f.getCount());
+                System.out.println(fj);
+                if (f.getCount()==fj) {
+                    MyConfig.delElm(f.getId());
+                }
+            }
+
+		    ulv_filter_box.setItems(
+                    FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+
+            usv.getChildren().clear();
+
+            for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+
+                Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                lid.setPrefSize(40, 20);
+                Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                lname.setPrefSize(120, 20);
+                Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                lprice.setPrefSize(120, 20);
+                Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                lstock.setPrefSize(40, 20);
+                Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                lcat.setPrefSize(100, 20);
+
+                HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+
+                Button b = new Button();
+
+                b.setGraphic(h);
+
+                b.setOnAction(event4 -> {
+                    llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                    llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                    llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                    llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                    llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                });
+
+                b.getStyleClass().add("lis_col");
+
+                usv.getChildren().add(b);
+
+            }
+            ulv_scroll.setContent(usv);
+
+            ulv_filter_box.setValue("All");
+
+            MyConfig.addElm(Double.parseDouble(lrv_tpay_label.getText()));
+
+            Cart.clear_cart();
+
+            urv_scroll_v.getChildren().clear();
+            lrv_tprice_label.setText("");
+            lrv_disc_label.clear();
+            lrv_tpay_label.setText("");
+
+            llv_id_field.clear();
+            llv_name_field.clear();
+            llv_price_field.clear();
+            llv_amount_field.clear();
+            llv_cat_field.clear();
+
+            Text suc_text = new Text("Payment Success");
+
+            StackPane suc =  new StackPane(suc_text);
+            suc.setPrefSize(200, 100);
+
+            Button ok = new Button("Ok");
+            ok.setPrefSize(70, 25);
+
+            VBox not = new VBox(suc, ok);
+            not.setAlignment(Pos.CENTER);
+
+            Scene notif = new Scene(not, 250, 140);
+
+            Stage snotif = new Stage();
+            snotif.setScene(notif);
+            snotif.setTitle("AKA CASHIER");
+            snotif.setResizable(false);
+            snotif.show();
+
+            ok.setOnAction(event10 -> {
+                snotif.close();
+            });
+
+        });
+
+        Button lrv_cancel = new Button("Cancel");
+        lrv_cancel.setPrefSize(120, 30);
+        lrv_cancel.setStyle("-fx-background-color: #78C0A8;");
+
+        lrv_cancel.setOnAction(event19 -> {
+            Cart.clear_cart();
+
+            urv_scroll_v.getChildren().clear();
+            lrv_tprice_label.setText("");
+            lrv_disc_label.clear();
+            lrv_tpay_label.setText("");
+        });
+
+        Button lrv_history = new Button("History");
+        lrv_history.setPrefSize(120, 30);
+        lrv_history.setStyle("-fx-background-color: #78C0A8;");
+
+        lrv_history.setOnAction(event19 -> {
+
+            VBox anu = new VBox();
+
+            for (int q=0; q<MyConfig.getDatabaseCol("time").size(); q++) {
+                Label tim = new Label();
+                tim.setPrefSize(250, 30);
+                Label pri = new Label();
+                pri.setPrefSize(100, 30);
+                tim.setText(MyConfig.getDatabaseCol("time").get(q));
+                pri.setText(MyConfig.getDatabaseCol("price").get(q));
+                HBox hpr = new HBox(tim, pri);
+                anu.getChildren().add(hpr);
+            }
+
+            ScrollPane sch = new ScrollPane(anu);
+            anu.setPrefSize(400, 400);
+
+            Scene anuan = new Scene(sch);
+
+            Stage anuscene = new Stage();
+            anuscene.setScene(anuan);
+            anuscene.setTitle("AKA CASHIER");
+            anuscene.setResizable(false);
+            anuscene.show();
+
+        });
+
+        HBox lrv_button = new HBox(lrv_pay, lrv_cancel, lrv_history);
+        lrv_button.setAlignment(Pos.CENTER);
+        lrv_button.setSpacing(20);
 
         VBox lrv = new VBox(lrv_title_box, lrv_tprice, lrv_disc, lrv_tpay, lrv_button);
+        lrv.setStyle("-fx-background-color: #FCEBB6;");
         lrv.setPrefHeight(300);
 
         // ============================================================
@@ -587,6 +1023,8 @@ public class MainApp extends Application {
         HBox root = new HBox(lms, rms);
 
         Scene scene = new Scene(root, 800, 550);
+        scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toExternalForm());
+
 
         return scene;
 

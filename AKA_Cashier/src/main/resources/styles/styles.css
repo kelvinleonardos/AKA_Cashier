@@ -1,0 +1,17 @@
+#side_bar{
+    -fx-background-color: #5E412F;
+}
+
+#llv_con{
+    -fx-padding: 0 20 0 20;
+    -fx-background-color: #FCEBB6;
+}
+
+.llv_button{
+    -fx-padding: 20 0 0 0;
+}
+
+.lis_col{
+    -fx-background-color: white;
+    -fx-border-color: #F07818;
+}

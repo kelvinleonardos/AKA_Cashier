@@ -1,7 +1,9 @@
 package com.example.aka_cashier;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MyConfig {
 
@@ -11,18 +13,37 @@ public class MyConfig {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public static void connection() {
+    public static void connection(String met) {
         try {
             connect = DriverManager.getConnection(DB_URL);
-            System.out.println("DB connection established");
+            System.out.println("DB connection established On : " + met);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    public static ArrayList<String> getDatabaseCol(String colhead) {
+
+        MyConfig.connection("getDatabaseCol by colhead");
+
+        ArrayList<String> content = new ArrayList<>();
+
+        try {
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery("SELECT " + colhead + " FROM tb_history");
+
+            while (resultSet.next()) {
+                content.add(resultSet.getString(colhead));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return content;
+    }
+
     public static ArrayList<String> getDatabaseCol(String colhead, String cat, boolean isSet, boolean isFil) {
 
-        MyConfig.connection();
+        MyConfig.connection("getDatabaseCol by multiple params");
 
         ArrayList<String> content = new ArrayList<>();
 
@@ -56,7 +77,7 @@ public class MyConfig {
 
     public static String getElmbyId(String i, String colhead) {
 
-        MyConfig.connection();
+        MyConfig.connection("getElmbyId");
 
         String elm = "null";
 
@@ -76,9 +97,24 @@ public class MyConfig {
         return elm;
     }
 
+    public static void addElm(double price) {
+        MyConfig.connection("addElm by price");
+        try (PreparedStatement pstmt = connect
+                .prepareStatement("INSERT INTO tb_history (time, price) VALUES (?, ?)")) {
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm:ss");
+            String fd = sdf.format(date);
+            pstmt.setString(1, fd);
+            pstmt.setString(2, String.valueOf(price));
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addElm(String name, int price, int stock, String category) {
 
-        MyConfig.connection();
+        MyConfig.connection("addElm by multiple params");
         try (PreparedStatement pstmt = connect
                 .prepareStatement("INSERT INTO tb_products (name, price, category, stock) VALUES (?, ?, ?, ?)")) {
             pstmt.setString(1, name);
@@ -93,7 +129,7 @@ public class MyConfig {
     }
 
     public static void editElm(int id, String name, int price, int stock, String category) {
-        MyConfig.connection();
+        MyConfig.connection("editElm");
         try (PreparedStatement pstmt = connect
                 .prepareStatement("UPDATE tb_products SET name=?, price=?, stock=?, category=? WHERE id=?")) {
             pstmt.setString(1, name);
@@ -108,7 +144,7 @@ public class MyConfig {
     }
 
     public static void delElm(int id) {
-        MyConfig.connection();
+        MyConfig.connection("delElm");
         try (PreparedStatement pstmt = connect.prepareStatement("DELETE FROM tb_products WHERE id=?")) {
             pstmt.setString(1, String.valueOf(id));
             pstmt.executeUpdate();
