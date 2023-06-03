@@ -390,49 +390,92 @@ public class MainApp extends Application {
             llv_add.setText("Edit Data");
 
             llv_add.setOnAction(event1 -> {
+                if (Cart.getP().size()==0) {
+                    MyConfig.editElm(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                            Integer.parseInt(llv_price_field.getText()), Integer.parseInt(llv_stock_field.getText()),
+                            llv_cat_field.getText());
 
-                MyConfig.editElm(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
-                        Integer.parseInt(llv_price_field.getText()), Integer.parseInt(llv_stock_field.getText()),
-                        llv_cat_field.getText());
+                    ulv_filter_box.setItems(
+                            FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
 
-                ulv_filter_box.setItems(
-                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+                    usv.getChildren().clear();
 
-                usv.getChildren().clear();
+                    for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
 
-                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+                        Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                        lid.setPrefSize(40, 20);
+                        Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                        lname.setPrefSize(120, 20);
+                        Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                        lprice.setPrefSize(120, 20);
+                        Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                        lstock.setPrefSize(40, 20);
+                        Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                        lcat.setPrefSize(100, 20);
 
-                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
-                    lid.setPrefSize(40, 20);
-                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
-                    lname.setPrefSize(120, 20);
-                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
-                    lprice.setPrefSize(120, 20);
-                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
-                    lstock.setPrefSize(40, 20);
-                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
-                    lcat.setPrefSize(100, 20);
+                        HBox h = new HBox(lid, lname, lprice, lstock, lcat);
 
-                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+                        Button b = new Button();
 
-                    Button b = new Button();
+                        b.setGraphic(h);
 
-                    b.setGraphic(h);
+                        b.setOnAction(event4 -> {
+                            llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                            llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                            llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                            llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                            llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                        });
 
-                    b.setOnAction(event4 -> {
-                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
-                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
-                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
-                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
-                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                        b.getStyleClass().add("lis_col");
+
+                        usv.getChildren().add(b);
+
+                    }
+                    ulv_scroll.setContent(usv);
+                } else {
+                    Text tomax = new Text("To edit product details, cart must be empty!");
+
+                    StackPane tomaxst = new StackPane(tomax);
+                    tomaxst.setPrefSize(250, 100);
+
+                    Button buok = new Button("Ok");
+                    buok.setPrefSize(70, 25);
+
+                    VBox tom = new VBox(tomaxst, buok);
+                    tom.setAlignment(Pos.CENTER);
+
+                    Scene keb = new Scene(tom, 300, 140);
+
+                    Stage kebs = new Stage();
+                    kebs.setScene(keb);
+                    kebs.setTitle("AKA CASHIER");
+                    kebs.setResizable(false);
+                    kebs.show();
+
+                    buok.setOnAction(event39 -> {
+                        kebs.close();
                     });
 
-                    b.getStyleClass().add("lis_col");
+                    final int[] cts = {5};
 
-                    usv.getChildren().add(b);
-
+                    Timeline ctl = new Timeline();
+                    ctl.setCycleCount(cts[0]);
+                    ctl.getKeyFrames().add(
+                        new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                cts[0]--;
+                                if (cts[0] == 0) {
+                                    kebs.close();
+                                } else {
+                                    buok.setText("Ok (" + cts[0] + ")");
+                                }
+                            }
+                        })
+                    );
+                    ctl.play();
                 }
-                ulv_scroll.setContent(usv);
 
                 ulv_filter_box.setValue("All");
 
