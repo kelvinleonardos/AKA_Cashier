@@ -1,9 +1,13 @@
 package com.example.aka_cashier;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -644,6 +648,26 @@ public class MainApp extends Application {
                         buok.setOnAction(event39 -> {
                             kebs.close();
                         });
+
+                        final int[] cts = {5};
+
+                        Timeline ctl = new Timeline();
+                        ctl.setCycleCount(cts[0]);
+                        ctl.getKeyFrames().add(
+                            new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    cts[0]--;
+                                    if (cts[0] == 0) {
+                                        kebs.close();
+                                    } else {
+                                        buok.setText("Ok (" + cts[0] + ")");
+                                    }
+                                }
+                            })
+                        );
+                        ctl.play();
+
                     }
                 } else {
                     if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
@@ -687,6 +711,26 @@ public class MainApp extends Application {
                         buok.setOnAction(event39 -> {
                             kebs.close();
                         });
+
+                        final int[] cts = {5};
+
+                        Timeline ctl = new Timeline();
+                        ctl.setCycleCount(cts[0]);
+                        ctl.getKeyFrames().add(
+                            new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    cts[0]--;
+                                    if (cts[0] == 0) {
+                                        kebs.close();
+                                    } else {
+                                        buok.setText("Ok (" + cts[0] + ")");
+                                    }
+                                }
+                            })
+                        );
+                        ctl.play();
+
                     }
                 }
             } catch (Exception e) {
@@ -712,6 +756,26 @@ public class MainApp extends Application {
                 bok.setOnAction(event39 -> {
                     sawt.close();
                 });
+
+                final int[] cts = {5};
+
+                Timeline ctl = new Timeline();
+                ctl.setCycleCount(cts[0]);
+                ctl.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            cts[0]--;
+                            if (cts[0] == 0) {
+                                sawt.close();
+                            } else {
+                                bok.setText("Ok (" + cts[0] + ")");
+                            }
+                        }
+                    })
+                );
+                ctl.play();
+
             }
             llv_id_field.clear();
             llv_name_field.clear();
@@ -786,6 +850,26 @@ public class MainApp extends Application {
                             buok.setOnAction(event39 -> {
                                 kebs.close();
                             });
+
+                            final int[] cts = {5};
+
+                            Timeline ctl = new Timeline();
+                            ctl.setCycleCount(cts[0]);
+                            ctl.getKeyFrames().add(
+                                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        cts[0]--;
+                                        if (cts[0] == 0) {
+                                            kebs.close();
+                                        } else {
+                                            buok.setText("Ok (" + cts[0] + ")");
+                                        }
+                                    }
+                                })
+                            );
+                            ctl.play();
+
                         }
                     } else {
 			            if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
@@ -829,6 +913,26 @@ public class MainApp extends Application {
                             buok.setOnAction(event39 -> {
                                 kebs.close();
                             });
+
+                            final int[] cts = {5};
+
+                            Timeline ctl = new Timeline();
+                            ctl.setCycleCount(cts[0]);
+                            ctl.getKeyFrames().add(
+                                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        cts[0]--;
+                                        if (cts[0] == 0) {
+                                            kebs.close();
+                                        } else {
+                                            buok.setText("Ok (" + cts[0] + ")");
+                                        }
+                                    }
+                                })
+                            );
+                            ctl.play();
+
                         }
                     }
                 } catch (Exception e) {
@@ -854,6 +958,26 @@ public class MainApp extends Application {
                     bok.setOnAction(event39 -> {
                         sawt.close();
                     });
+
+                    final int[] cts = {5};
+
+                    Timeline ctl = new Timeline();
+                    ctl.setCycleCount(cts[0]);
+                    ctl.getKeyFrames().add(
+                        new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                cts[0]--;
+                                if (cts[0] == 0) {
+                                    sawt.close();
+                                } else {
+                                    bok.setText("Ok (" + cts[0] + ")");
+                                }
+                            }
+                        })
+                    );
+                    ctl.play();
+
                 }
                 llv_id_field.clear();
                 llv_name_field.clear();
@@ -959,6 +1083,25 @@ public class MainApp extends Application {
             ok.setOnAction(event10 -> {
                 snotif.close();
             });
+
+            final int[] cts = {5};
+
+            Timeline ctl = new Timeline();
+            ctl.setCycleCount(cts[0]);
+            ctl.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            cts[0]--;
+                            if (cts[0] == 0) {
+                                snotif.close();
+                            } else {
+                                ok.setText("Ok (" + cts[0] + ")");
+                            }
+                        }
+                    })
+            );
+            ctl.play();
 
         });
 
