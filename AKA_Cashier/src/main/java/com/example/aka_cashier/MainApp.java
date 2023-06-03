@@ -220,39 +220,43 @@ public class MainApp extends Application {
 
         ulv_filter_box.setOnAction(event -> {
             usv.getChildren().clear();
-            for (String i : MyConfig.getDatabaseCol("id", ulv_filter_box.getValue(), false, false)) {
+            try {
+                for (String i : MyConfig.getDatabaseCol("id", ulv_filter_box.getValue(), false, false)) {
 
-                Label lid = new Label(MyConfig.getElmbyId(i, "id"));
-                lid.setPrefSize(40, 20);
-                Label lname = new Label(MyConfig.getElmbyId(i, "name"));
-                lname.setPrefSize(120, 20);
-                Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
-                lprice.setPrefSize(120, 20);
-                Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
-                lstock.setPrefSize(40, 20);
-                Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
-                lcat.setPrefSize(100, 20);
+                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                    lid.setPrefSize(40, 20);
+                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                    lname.setPrefSize(120, 20);
+                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                    lprice.setPrefSize(120, 20);
+                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                    lstock.setPrefSize(40, 20);
+                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                    lcat.setPrefSize(100, 20);
 
-                HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
 
-                Button b = new Button();
+                    Button b = new Button();
 
-                b.setGraphic(h);
+                    b.setGraphic(h);
 
-                b.setOnAction(ev -> {
-                    llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
-                    llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
-                    llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
-                    llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
-                    llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
-                });
+                    b.setOnAction(ev -> {
+                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    });
 
-                b.getStyleClass().add("lis_col");
+                    b.getStyleClass().add("lis_col");
 
-                usv.getChildren().add(b);
+                    usv.getChildren().add(b);
 
+                }
+                ulv_scroll.setContent(usv);
+            } catch (Exception e) {
+                System.out.println("Filter is null");
             }
-            ulv_scroll.setContent(usv);
         });
 
         VBox llv_con = new VBox(llv_title_box, llv_id, llv_name, llv_price, llv_amount, llv_button);
@@ -872,8 +876,6 @@ public class MainApp extends Application {
             for (Product f:Cart.getP()) {
                 int fj = Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"));
                 MyConfig.editElm(f.getId(), f.getName(), f.getPrice(), Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"))-f.getCount(), MyConfig.getElmbyId(String.valueOf(f.getId()), "category"));
-                System.out.println(f.getCount());
-                System.out.println(fj);
                 if (f.getCount()==fj) {
                     MyConfig.delElm(f.getId());
                 }
