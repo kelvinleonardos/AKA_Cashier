@@ -668,6 +668,7 @@ public class MainApp extends Application {
         Label lrv_tprice_text = new Label("Total Price:");
         lrv_tprice_text.setPrefSize(100, 15);
         Label lrv_tprice_label = new Label();
+        lrv_tprice_label.setText("0");
 
         HBox lrv_tprice = new HBox(lrv_tprice_text, lrv_tprice_label);
         lrv_tprice.setAlignment(Pos.CENTER_LEFT);
@@ -687,6 +688,7 @@ public class MainApp extends Application {
         Label lrv_tpay_text = new Label("Total Pay:");
         lrv_tpay_text.setPrefSize(100, 15);
         Label lrv_tpay_label = new Label();
+        lrv_tpay_label.setText("0");
 
         lrv_disc_label.setOnAction(event8 -> {
             double sblm = Double.parseDouble(lrv_tprice_label.getText());
@@ -1096,98 +1098,99 @@ public class MainApp extends Application {
 
         lrv_pay.setOnAction(event9 -> {
 
-            for (Product f:Cart.getP()) {
-                int fj = Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"));
-                MyConfig.editElm(f.getId(), f.getName(), f.getPrice(), Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"))-f.getCount(), MyConfig.getElmbyId(String.valueOf(f.getId()), "category"));
-                if (f.getCount()==fj) {
-                    MyConfig.delElm(f.getId());
+            if (!lrv_tpay_label.getText().equals("0")) {
+                for (Product f : Cart.getP()) {
+                    int fj = Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"));
+                    MyConfig.editElm(f.getId(), f.getName(), f.getPrice(), Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock")) - f.getCount(), MyConfig.getElmbyId(String.valueOf(f.getId()), "category"));
+                    if (f.getCount() == fj) {
+                        MyConfig.delElm(f.getId());
+                    }
                 }
-            }
 
-		    ulv_filter_box.setItems(
-                    FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+                ulv_filter_box.setItems(
+                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
 
-            usv.getChildren().clear();
+                usv.getChildren().clear();
 
-            for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
 
-                Label lid = new Label(MyConfig.getElmbyId(i, "id"));
-                lid.setPrefSize(40, 20);
-                Label lname = new Label(MyConfig.getElmbyId(i, "name"));
-                lname.setPrefSize(120, 20);
-                Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
-                lprice.setPrefSize(120, 20);
-                Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
-                lstock.setPrefSize(40, 20);
-                Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
-                lcat.setPrefSize(100, 20);
+                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                    lid.setPrefSize(40, 20);
+                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                    lname.setPrefSize(120, 20);
+                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                    lprice.setPrefSize(120, 20);
+                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                    lstock.setPrefSize(40, 20);
+                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                    lcat.setPrefSize(100, 20);
 
-                HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
 
-                Button b = new Button();
+                    Button b = new Button();
 
-                b.setGraphic(h);
+                    b.setGraphic(h);
 
-                b.setOnAction(event4 -> {
-                    llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
-                    llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
-                    llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
-                    llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
-                    llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    b.setOnAction(event4 -> {
+                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                    });
+
+                    b.getStyleClass().add("lis_col");
+
+                    usv.getChildren().add(b);
+
+                }
+                ulv_scroll.setContent(usv);
+
+                ulv_filter_box.setValue("All");
+
+                MyConfig.addElm(Double.parseDouble(lrv_tpay_label.getText()));
+
+                Cart.clear_cart();
+
+                urv_scroll_v.getChildren().clear();
+                lrv_tprice_label.setText("0");
+                lrv_disc_label.clear();
+                lrv_tpay_label.setText("0");
+
+                llv_id_field.clear();
+                llv_name_field.clear();
+                llv_price_field.clear();
+                llv_amount_field.clear();
+                llv_cat_field.clear();
+
+                Text suc_text = new Text("Payment Success");
+
+                StackPane suc = new StackPane(suc_text);
+                suc.setPrefSize(200, 100);
+
+                Button ok = new Button("Ok");
+                ok.setPrefSize(70, 25);
+
+                VBox not = new VBox(suc, ok);
+                not.setAlignment(Pos.CENTER);
+
+                Scene notif = new Scene(not, 250, 140);
+
+                Stage snotif = new Stage();
+                snotif.setScene(notif);
+                snotif.setTitle("AKA CASHIER");
+                snotif.setResizable(false);
+                snotif.show();
+
+                ok.setOnAction(event10 -> {
+                    snotif.close();
                 });
 
-                b.getStyleClass().add("lis_col");
+                final int[] cts = {5};
 
-                usv.getChildren().add(b);
-
-            }
-            ulv_scroll.setContent(usv);
-
-            ulv_filter_box.setValue("All");
-
-            MyConfig.addElm(Double.parseDouble(lrv_tpay_label.getText()));
-
-            Cart.clear_cart();
-
-            urv_scroll_v.getChildren().clear();
-            lrv_tprice_label.setText("");
-            lrv_disc_label.clear();
-            lrv_tpay_label.setText("");
-
-            llv_id_field.clear();
-            llv_name_field.clear();
-            llv_price_field.clear();
-            llv_amount_field.clear();
-            llv_cat_field.clear();
-
-            Text suc_text = new Text("Payment Success");
-
-            StackPane suc =  new StackPane(suc_text);
-            suc.setPrefSize(200, 100);
-
-            Button ok = new Button("Ok");
-            ok.setPrefSize(70, 25);
-
-            VBox not = new VBox(suc, ok);
-            not.setAlignment(Pos.CENTER);
-
-            Scene notif = new Scene(not, 250, 140);
-
-            Stage snotif = new Stage();
-            snotif.setScene(notif);
-            snotif.setTitle("AKA CASHIER");
-            snotif.setResizable(false);
-            snotif.show();
-
-            ok.setOnAction(event10 -> {
-                snotif.close();
-            });
-
-            final int[] cts = {5};
-
-            Timeline ctl = new Timeline();
-            ctl.setCycleCount(cts[0]);
-            ctl.getKeyFrames().add(
+                Timeline ctl = new Timeline();
+                ctl.setCycleCount(cts[0]);
+                ctl.getKeyFrames().add(
                     new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -1199,9 +1202,51 @@ public class MainApp extends Application {
                             }
                         }
                     })
-            );
-            ctl.play();
+                );
+                ctl.play();
+            } else {
+                Text suc_text = new Text("Please add product to cart!");
 
+                StackPane suc = new StackPane(suc_text);
+                suc.setPrefSize(250, 100);
+
+                Button ok = new Button("Ok");
+                ok.setPrefSize(70, 25);
+
+                VBox not = new VBox(suc, ok);
+                not.setAlignment(Pos.CENTER);
+
+                Scene notif = new Scene(not, 300, 140);
+
+                Stage snotif = new Stage();
+                snotif.setScene(notif);
+                snotif.setTitle("AKA CASHIER");
+                snotif.setResizable(false);
+                snotif.show();
+
+                ok.setOnAction(event10 -> {
+                    snotif.close();
+                });
+
+                final int[] cts = {5};
+
+                Timeline ctl = new Timeline();
+                ctl.setCycleCount(cts[0]);
+                ctl.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            cts[0]--;
+                            if (cts[0] == 0) {
+                                snotif.close();
+                            } else {
+                                ok.setText("Ok (" + cts[0] + ")");
+                            }
+                        }
+                    })
+                );
+                ctl.play();
+            }
         });
 
         Button lrv_cancel = new Button("Cancel");
@@ -1212,9 +1257,9 @@ public class MainApp extends Application {
             Cart.clear_cart();
 
             urv_scroll_v.getChildren().clear();
-            lrv_tprice_label.setText("");
+            lrv_tprice_label.setText("0");
             lrv_disc_label.clear();
-            lrv_tpay_label.setText("");
+            lrv_tpay_label.setText("0");
         });
 
         Button lrv_history = new Button("History");
