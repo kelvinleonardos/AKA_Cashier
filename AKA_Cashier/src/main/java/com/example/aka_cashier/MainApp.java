@@ -316,92 +316,9 @@ public class MainApp extends Application {
 
             llv_add.setOnAction(event1 -> {
 
-                MyConfig.addElm(llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()),
-                        Integer.parseInt(llv_stock_field.getText()), llv_cat_field.getText());
-
-                ulv_filter_box.setItems(
-                        FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
-
-                usv.getChildren().clear();
-
-                for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
-
-                    Label lid = new Label(MyConfig.getElmbyId(i, "id"));
-                    lid.setPrefSize(40, 20);
-                    Label lname = new Label(MyConfig.getElmbyId(i, "name"));
-                    lname.setPrefSize(120, 20);
-                    Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
-                    lprice.setPrefSize(120, 20);
-                    Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
-                    lstock.setPrefSize(40, 20);
-                    Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
-                    lcat.setPrefSize(100, 20);
-
-                    HBox h = new HBox(lid, lname, lprice, lstock, lcat);
-
-                    Button b = new Button();
-
-                    b.setGraphic(h);
-
-                    b.setOnAction(event4 -> {
-                        llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
-                        llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
-                        llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
-                        llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
-                        llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
-                    });
-
-                    b.getStyleClass().add("lis_col");
-
-                    usv.getChildren().add(b);
-
-                }
-                ulv_scroll.setContent(usv);
-
-                ulv_filter_box.setValue("All");
-
-
-                llv_id_field.clear();
-                llv_name_field.clear();
-                llv_price_field.clear();
-                llv_amount_field.clear();
-                llv_stock_field.clear();
-                llv_cat_field.clear();
-
-            });
-
-            llv_con.getChildren().addAll(llv_title_box, llv_name, llv_price, llv_stock, llv_cat, llv_button);
-        });
-
-        edt_con.setOnAction(event5 -> {
-
-            add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
-            det_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
-            edt_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
-            del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
-
-            llv_title.setText("Edit Data");
-            llv_con.getChildren().clear();
-
-            llv_id_field.clear();
-            llv_id_field.setEditable(false);
-
-            llv_name_field.clear();
-            llv_name_field.setEditable(true);
-            llv_price_field.clear();
-            llv_price_field.setEditable(true);
-            llv_stock_field.clear();
-            llv_stock_field.setEditable(true);
-            llv_cat_field.clear();
-            llv_cat_field.setEditable(true);
-
-            llv_add.setText("Edit Data");
-
-            llv_add.setOnAction(event1 -> {
-                if (Cart.getP().size()==0) {
-                    MyConfig.editElm(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
-                            Integer.parseInt(llv_price_field.getText()), Integer.parseInt(llv_stock_field.getText()),
-                            llv_cat_field.getText());
+                try {
+                    MyConfig.addElm(llv_name_field.getText(), Integer.parseInt(llv_price_field.getText()),
+                            Integer.parseInt(llv_stock_field.getText()), llv_cat_field.getText());
 
                     ulv_filter_box.setItems(
                             FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
@@ -441,8 +358,186 @@ public class MainApp extends Application {
 
                     }
                     ulv_scroll.setContent(usv);
-                } else {
-                    Text tomax = new Text("To edit product details, cart must be empty!");
+
+                    ulv_filter_box.setValue("All");
+
+
+                    llv_id_field.clear();
+                    llv_name_field.clear();
+                    llv_price_field.clear();
+                    llv_amount_field.clear();
+                    llv_stock_field.clear();
+                    llv_cat_field.clear();
+                } catch (Exception e) {
+                    Text amount_warn = new Text("Invalid Product Details!");
+
+                    StackPane saw = new StackPane(amount_warn);
+                    saw.setPrefSize(200, 100);
+
+                    Button bok = new Button("Ok");
+                    bok.setPrefSize(70, 25);
+
+                    VBox not = new VBox(saw, bok);
+                    not.setAlignment(Pos.CENTER);
+
+                    Scene sawnot = new Scene(not, 250, 140);
+
+                    Stage sawt = new Stage();
+                    sawt.setScene(sawnot);
+                    sawt.setTitle("AKA CASHIER");
+                    sawt.setResizable(false);
+                    sawt.show();
+
+                    bok.setOnAction(event39 -> {
+                        sawt.close();
+                    });
+
+                    final int[] cts = {5};
+
+                    Timeline ctl = new Timeline();
+                    ctl.setCycleCount(cts[0]);
+                    ctl.getKeyFrames().add(
+                        new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                cts[0]--;
+                                if (cts[0] == 0) {
+                                    sawt.close();
+                                } else {
+                                    bok.setText("Ok (" + cts[0] + ")");
+                                }
+                            }
+                        })
+                    );
+                    ctl.play();
+                }
+            });
+
+            llv_con.getChildren().addAll(llv_title_box, llv_name, llv_price, llv_stock, llv_cat, llv_button);
+        });
+
+        edt_con.setOnAction(event5 -> {
+
+            add_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            det_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+            edt_con.setStyle("-fx-background-color: #FCEBB6; -fx-text-fill: black;");
+            del_con.setStyle("-fx-background-color: #53412f; -fx-text-fill: white;");
+
+            llv_title.setText("Edit Data");
+            llv_con.getChildren().clear();
+
+            llv_id_field.clear();
+            llv_id_field.setEditable(false);
+
+            llv_name_field.clear();
+            llv_name_field.setEditable(true);
+            llv_price_field.clear();
+            llv_price_field.setEditable(true);
+            llv_stock_field.clear();
+            llv_stock_field.setEditable(true);
+            llv_cat_field.clear();
+            llv_cat_field.setEditable(true);
+
+            llv_add.setText("Edit Data");
+
+            llv_add.setOnAction(event1 -> {
+                try {
+                    if (Cart.getP().size() == 0) {
+                        MyConfig.editElm(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
+                                Integer.parseInt(llv_price_field.getText()), Integer.parseInt(llv_stock_field.getText()),
+                                llv_cat_field.getText());
+
+                        ulv_filter_box.setItems(
+                                FXCollections.observableArrayList(MyConfig.getDatabaseCol("category", "All", true, true)));
+
+                        usv.getChildren().clear();
+
+                        for (String i : MyConfig.getDatabaseCol("id", "All", false, false)) {
+
+                            Label lid = new Label(MyConfig.getElmbyId(i, "id"));
+                            lid.setPrefSize(40, 20);
+                            Label lname = new Label(MyConfig.getElmbyId(i, "name"));
+                            lname.setPrefSize(120, 20);
+                            Label lprice = new Label(MyConfig.getElmbyId(i, "price"));
+                            lprice.setPrefSize(120, 20);
+                            Label lstock = new Label(MyConfig.getElmbyId(i, "stock"));
+                            lstock.setPrefSize(40, 20);
+                            Label lcat = new Label(MyConfig.getElmbyId(i, "category"));
+                            lcat.setPrefSize(100, 20);
+
+                            HBox h = new HBox(lid, lname, lprice, lstock, lcat);
+
+                            Button b = new Button();
+
+                            b.setGraphic(h);
+
+                            b.setOnAction(event4 -> {
+                                llv_id_field.setText(MyConfig.getElmbyId(i, "id"));
+                                llv_name_field.setText(MyConfig.getElmbyId(i, "name"));
+                                llv_price_field.setText(MyConfig.getElmbyId(i, "price"));
+                                llv_stock_field.setText(MyConfig.getElmbyId(i, "stock"));
+                                llv_cat_field.setText(MyConfig.getElmbyId(i, "category"));
+                            });
+
+                            b.getStyleClass().add("lis_col");
+
+                            usv.getChildren().add(b);
+
+                        }
+                        ulv_scroll.setContent(usv);
+                    } else {
+                        Text tomax = new Text("To edit product details, cart must be empty!");
+
+                        StackPane tomaxst = new StackPane(tomax);
+                        tomaxst.setPrefSize(250, 100);
+
+                        Button buok = new Button("Ok");
+                        buok.setPrefSize(70, 25);
+
+                        VBox tom = new VBox(tomaxst, buok);
+                        tom.setAlignment(Pos.CENTER);
+
+                        Scene keb = new Scene(tom, 300, 140);
+
+                        Stage kebs = new Stage();
+                        kebs.setScene(keb);
+                        kebs.setTitle("AKA CASHIER");
+                        kebs.setResizable(false);
+                        kebs.show();
+
+                        buok.setOnAction(event39 -> {
+                            kebs.close();
+                        });
+
+                        final int[] cts = {5};
+
+                        Timeline ctl = new Timeline();
+                        ctl.setCycleCount(cts[0]);
+                        ctl.getKeyFrames().add(
+                                new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        cts[0]--;
+                                        if (cts[0] == 0) {
+                                            kebs.close();
+                                        } else {
+                                            buok.setText("Ok (" + cts[0] + ")");
+                                        }
+                                    }
+                                })
+                        );
+                        ctl.play();
+                    }
+
+                    ulv_filter_box.setValue("All");
+
+                    llv_id_field.clear();
+                    llv_name_field.clear();
+                    llv_price_field.clear();
+                    llv_stock_field.clear();
+                    llv_cat_field.clear();
+                } catch (Exception e) {
+                    Text tomax = new Text("Invalid Product Details!");
 
                     StackPane tomaxst = new StackPane(tomax);
                     tomaxst.setPrefSize(250, 100);
@@ -470,29 +565,20 @@ public class MainApp extends Application {
                     Timeline ctl = new Timeline();
                     ctl.setCycleCount(cts[0]);
                     ctl.getKeyFrames().add(
-                        new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                cts[0]--;
-                                if (cts[0] == 0) {
-                                    kebs.close();
-                                } else {
-                                    buok.setText("Ok (" + cts[0] + ")");
+                            new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    cts[0]--;
+                                    if (cts[0] == 0) {
+                                        kebs.close();
+                                    } else {
+                                        buok.setText("Ok (" + cts[0] + ")");
+                                    }
                                 }
-                            }
-                        })
+                            })
                     );
                     ctl.play();
                 }
-
-                ulv_filter_box.setValue("All");
-
-                llv_id_field.clear();
-                llv_name_field.clear();
-                llv_price_field.clear();
-                llv_stock_field.clear();
-                llv_cat_field.clear();
-
             });
 
             llv_con.getChildren().addAll(llv_title_box, llv_id, llv_name, llv_price, llv_stock, llv_cat, llv_button);
@@ -704,7 +790,7 @@ public class MainApp extends Application {
         llv_add.setOnAction(event -> {
             try {
                 if (Cart.getPn().contains(llv_name_field.getText())) {
-                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount()) {
+                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount() && Integer.parseInt(llv_amount_field.getText())>0) {
                         urv_scroll_v.getChildren().clear();
                         Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
                                 Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
@@ -724,10 +810,10 @@ public class MainApp extends Application {
                             lrv_tpay_label.setText(String.valueOf(Cart.calc_total()));
                         }
                     } else {
-                        Text tomax = new Text("The Product Amount Kebanyakan!");
+                        Text tomax = new Text("The Product Amount Invalid (To much or less than 0)!");
 
                         StackPane tomaxst = new StackPane(tomax);
-                        tomaxst.setPrefSize(200, 100);
+                        tomaxst.setPrefSize(300, 100);
 
                         Button buok = new Button("Ok");
                         buok.setPrefSize(70, 25);
@@ -735,7 +821,7 @@ public class MainApp extends Application {
                         VBox tom = new VBox(tomaxst, buok);
                         tom.setAlignment(Pos.CENTER);
 
-                        Scene keb = new Scene(tom, 250, 140);
+                        Scene keb = new Scene(tom, 400, 140);
 
                         Stage kebs = new Stage();
                         kebs.setScene(keb);
@@ -768,7 +854,7 @@ public class MainApp extends Application {
 
                     }
                 } else {
-                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
+                    if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText()) && Integer.parseInt(llv_amount_field.getText())>0) {
                         urv_scroll_v.getChildren().clear();
                         Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
                                 Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
@@ -788,10 +874,10 @@ public class MainApp extends Application {
                             lrv_tpay_label.setText(String.valueOf(Cart.calc_total()));
                         }
                     } else {
-                        Text tomax = new Text("The Product Amount Kebanyakan!");
+                        Text tomax = new Text("The Product Amount Invalid (To much or less than 0)!");
 
                         StackPane tomaxst = new StackPane(tomax);
-                        tomaxst.setPrefSize(200, 100);
+                        tomaxst.setPrefSize(300, 100);
 
                         Button buok = new Button("Ok");
                         buok.setPrefSize(70, 25);
@@ -799,7 +885,7 @@ public class MainApp extends Application {
                         VBox tom = new VBox(tomaxst, buok);
                         tom.setAlignment(Pos.CENTER);
 
-                        Scene keb = new Scene(tom, 250, 140);
+                        Scene keb = new Scene(tom, 400, 140);
 
                         Stage kebs = new Stage();
                         kebs.setScene(keb);
@@ -833,7 +919,7 @@ public class MainApp extends Application {
                     }
                 }
             } catch (Exception e) {
-                Text amount_warn = new Text("Please Insert Product Amount!");
+                Text amount_warn = new Text("Please Insert Product Details!");
 
                 StackPane saw = new StackPane(amount_warn);
                 saw.setPrefSize(200, 100);
@@ -908,7 +994,7 @@ public class MainApp extends Application {
             llv_add.setOnAction(event23 -> {
                 try {
                     if (Cart.getPn().contains(llv_name_field.getText())) {
-                        if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount()) {
+                        if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())+Cart.getP().get(Cart.getPn().indexOf(llv_name_field.getText())).getCount() && Integer.parseInt(llv_amount_field.getText())>0) {
                             urv_scroll_v.getChildren().clear();
                             Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
                                     Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
@@ -928,10 +1014,10 @@ public class MainApp extends Application {
                                 lrv_tpay_label.setText(String.valueOf(Cart.calc_total()));
                             }
                         } else {
-                            Text tomax = new Text("The Product Amount Kebanyakan!");
+                            Text tomax = new Text("The Product Amount Invalid (To much or less than 0)!");
 
                             StackPane tomaxst = new StackPane(tomax);
-                            tomaxst.setPrefSize(200, 100);
+                            tomaxst.setPrefSize(300, 100);
 
                             Button buok = new Button("Ok");
                             buok.setPrefSize(70, 25);
@@ -939,7 +1025,7 @@ public class MainApp extends Application {
                             VBox tom = new VBox(tomaxst, buok);
                             tom.setAlignment(Pos.CENTER);
 
-                            Scene keb = new Scene(tom, 250, 140);
+                            Scene keb = new Scene(tom, 400, 140);
 
                             Stage kebs = new Stage();
                             kebs.setScene(keb);
@@ -972,7 +1058,7 @@ public class MainApp extends Application {
 
                         }
                     } else {
-			            if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText())) {
+			            if (Integer.parseInt(MyConfig.getElmbyId(llv_id_field.getText(), "stock" ))>=Integer.parseInt(llv_amount_field.getText()) && Integer.parseInt(llv_amount_field.getText())>0) {
                             urv_scroll_v.getChildren().clear();
                             Cart.add_product(Integer.parseInt(llv_id_field.getText()), llv_name_field.getText(),
                                     Integer.parseInt(llv_price_field.getText()), llv_cat_field.getText(), Integer.parseInt(llv_amount_field.getText()));
@@ -992,10 +1078,10 @@ public class MainApp extends Application {
                                 lrv_tpay_label.setText(String.valueOf(Cart.calc_total()));
                             }
                         } else {
-                            Text tomax = new Text("The Product Amount Kebanyakan!");
+                            Text tomax = new Text("The Product Amount Invalid (To much or less than 0)!");
 
                             StackPane tomaxst = new StackPane(tomax);
-                            tomaxst.setPrefSize(200, 100);
+                            tomaxst.setPrefSize(300, 100);
 
                             Button buok = new Button("Ok");
                             buok.setPrefSize(70, 25);
@@ -1003,7 +1089,7 @@ public class MainApp extends Application {
                             VBox tom = new VBox(tomaxst, buok);
                             tom.setAlignment(Pos.CENTER);
 
-                            Scene keb = new Scene(tom, 250, 140);
+                            Scene keb = new Scene(tom, 400, 140);
 
                             Stage kebs = new Stage();
                             kebs.setScene(keb);
@@ -1037,7 +1123,7 @@ public class MainApp extends Application {
                         }
                     }
                 } catch (Exception e) {
-                    Text amount_warn = new Text("Please Insert Product Amount!");
+                    Text amount_warn = new Text("Please Insert Product Details!");
 
                     StackPane saw = new StackPane(amount_warn);
                     saw.setPrefSize(200, 100);
@@ -1098,7 +1184,7 @@ public class MainApp extends Application {
 
         lrv_pay.setOnAction(event9 -> {
 
-            if (!lrv_tpay_label.getText().equals("0")) {
+            if (!lrv_tprice_label.getText().equals("0")) {
                 for (Product f : Cart.getP()) {
                     int fj = Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock"));
                     MyConfig.editElm(f.getId(), f.getName(), f.getPrice(), Integer.parseInt(MyConfig.getElmbyId(String.valueOf(f.getId()), "stock")) - f.getCount(), MyConfig.getElmbyId(String.valueOf(f.getId()), "category"));
